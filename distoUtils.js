@@ -1,27 +1,38 @@
 var eriemap = {};
+eriemap["id"] = "erie"
 eriemap["filename"] = "ErieCountyMainCSV.topojson";
 eriemap["scale"] = 33;
 eriemap["tarns1"] = -23600;
 eriemap["tarns2"] = -4750;
 
 var nymap = {};
-nymap["filename"] = "CountyFromWeb.topojson";
-nymap["scale"] = 7;
-nymap["tarns1"] = -4956;
-nymap["tarns2"] = -632;
+nymap["id"] = "ny"
+nymap["filename"] = "CountyDataNewCSVMerge.topojson";
+nymap["scale"] = 6.5;
+nymap["tarns1"] = -4576;
+nymap["tarns2"] = -620;
 
 var allmaps = {};
 allmaps["erie"] = eriemap;
 allmaps["ny"] = nymap;
 console.log(allmaps["erie"]);
 
-var datamap = allmaps["erie"];
+var datamap = allmaps["ny"];
+
+var width = "40%",
+    height = 590;
+
+if(datamap.id=="ny"){
+  document.getElementById("top").style.display='none';
+  width = "65%"
+} else{
+    document.getElementById("top").style.display='block';
+}
 
 console.log(datamap);
 
 
-var width = "40%",
-    height = 900;
+
 
 var svg = d3.select("#mapc").append("svg")
     .attr("width", width)
@@ -42,32 +53,30 @@ var percent = (function() {
       return function(n) { return fmt(n) + "%"; };
     })(),
     fields = [
-      {name: "Default", id: "none"},
-      // {name: "Census Population", id: "censuspop", key: "CENSUS%dPOP", years: [2010]},
-      // {name: "Estimate Base", id: "censuspop", key: "ESTIMATESBASE%d", years: [2010]},
-      {name: "Population", id: "Population", key: "Population"},
-      {name: "Population Per Square Mile", id: "Population Per Square Mile", key: "Population Per Square Mile"},
-      {name: "Area (sq mi)", id: "Muni Area (sq mi)", key: "Muni Area (sq mi)"},
-      {name: "% Households With Cable", id: "%_HH_With_Cable", key: "%_HH_With_Cable"},
-      {name: "% Households With Fiber", id: "%_HH_With_Fiber", key: "%_HH_With_Fiber"},
-      {name: "Residential Market Value Ratio", id: "Residential Market Value Ratio", key: "Residential Market Value Ratio"},
-      {name: "Households", id: "HH", key: "HH"},
-      {name: "Family Households", id: "HH_fam", key: "HH_fam"},
-      {name: "Married Couple Families", id: "Married", key: "Married"},
-      {name: "Male", id: "Male", key: "Male"},
-      {name: "Female", id: "Female", key: "Female"},
-      {name: "One_Race", id: "One_Race", key: "One_Race"},
-      {name: "Black or African Americans", id: "Black or AA", key: "Black or AA"},
-      {name: "Whites", id: "White", key: "White"},
-      {name: "Asians", id: "Asian", key: "Asian"},
-      {name: "High School Grads", id: "HSgrad", key: "HSgrad"},
-      {name: "College", id: "SomeCollege", key: "SomeCollege", format: "+,"},
-      {name: "Associate Degree", id: "Assoc_Degree", key: "Assoc_Degree", years: [2011], format: percent},
-      {name: "Bach Degree", id: "Bach_Degree", key: "Bach_Degree", years: [2011], format: percent},
-      {name: "Grad_Prof_degree", id: "Grad_Prof_degree", key: "Grad_Prof_degree", years: [2011], format: percent},
-      {name: "Per_HSgradHigher", id: "Per_HSgradHigher", key: "Per_HSgradHigher", years: [2011], format: percent},
-      {name: "PerBachorHigher", id: "PerBachorHigher", key: "PerBachorHigher", years: [2011], format: percent},
-      {name: "Black or African Americans", id: "BLACK", key: "BLACK"},
+      {name: "Default (Area (sq mi))", id: "default", key: "Muni Area (sq mi)", ratio:"none", ny:false, erie:true},
+      {name: "Default", id: "none", ny:true, erie:false},
+      {name: "Population", id: "Population", key: "Population", ratio:"none", ny:true,erie:true},
+      {name: "Population Per Square Mile", id: "Population Per Square Mile", key: "Population Per Square Mile", ratio:"none", ny:false,erie:true},
+/*      {name: "Area (sq mi)", id: "Muni Area (sq mi)", key: "Muni Area (sq mi)", ratio:"none"},
+*/      {name: "% Households With Cable", id: "%_HH_With_Cable", key: "%_HH_With_Cable", ratio:"none", ny:false,erie:true},
+      {name: "% Households With Fiber", id: "%_HH_With_Fiber", key: "%_HH_With_Fiber", ratio:"none", ny:false,erie:true},
+      {name: "Residential Market Value Ratio", id: "Residential Market Value Ratio", key: "Residential Market Value Ratio", ratio:"none", ny:false,erie:true},
+      {name: "Households per sq mi", id: "HH", key: "HH", ratio: "Muni Area (sq mi)", ny:false,erie:true},
+      {name: "Family Households per sq mi", id: "HH_fam", key: "HH_fam", ratio: "Muni Area (sq mi)", ny:true,erie:true},
+      {name: "Married Couple Families (%)", id: "Married", key: "Married", ratio:"Population", ny:false,erie:true},
+      {name: "Male (%)", id: "Male", key: "Male", ratio:"Population", ny:true,erie:true},
+      {name: "Female (%)", id: "Female", key: "Female", ratio:"Population", ny:true,erie:true},
+      {name: "One_Race (%)", id: "One_Race", key: "One_Race", ratio:"Population", ny:false,erie:true},
+      {name: "Black or African Americans (%)", id: "Black or AA", key: "Black or AA", ratio:"Population", ny:true,erie:true},
+      {name: "Whites (%)", id: "White", key: "White", ratio:"Population", ny:true,erie:true},
+      {name: "Asians (%)", id: "Asian", key: "Asian", ratio:"Population", ny:true,erie:true},
+      {name: "High School Grads (%)", id: "HSgrad", key: "HSgrad", ratio:"Population", ny:false,erie:true},
+      {name: "College (%)", id: "SomeCollege", key: "SomeCollege", format: "+,", ratio:"Population", ny:false,erie:true},
+      {name: "Associate Degree (%)", id: "Assoc_Degree", key: "Assoc_Degree", ratio:"Population", ny:false,erie:true},
+      {name: "Bach Degree (%)", id: "Bach_Degree", key: "Bach_Degree", ratio:"Population", ny:false,erie:true},
+      {name: "Grad_Prof_degree (%)", id: "Grad_Prof_degree", key: "Grad_Prof_degree", ratio:"Population", ny:false,erie:true},
+      {name: "Per_HSgradHigher (%)", id: "Per_HSgradHigher", key: "Per_HSgradHigher", ratio:"Population", ny:false,erie:true},
+      {name: "PerBachorHigher (%)", id: "PerBachorHigher", key: "PerBachorHigher", ratio:"Population", ny:false,erie:true},
     ],
     years = [2010, 2011],
     fieldsById = d3.nest()
@@ -88,14 +97,17 @@ var fieldSelect = d3.select("#feild")
   ftable = document.getElementById("field");
   var i=0;
  for(var f in fields){
-    var ele = document.createElement("a");
-    ele.setAttribute('href', "#"+fields[f].id);
-    ele.setAttribute('text', fields[f].id);
-    ele.innerHTML = fields[f].name;
-    var r = ftable.insertRow(i);
-    var c = r.insertCell(0);
-    c.appendChild(ele);
-    i++;
+    if(fields[f][datamap.id]){
+      var ele = document.createElement("a");
+      ele.setAttribute('href', "#"+fields[f].id);
+      ele.setAttribute('text', fields[f].id);
+      ele.setAttribute('class', "fieldele");
+      ele.innerHTML = fields[f].name;
+      var r = ftable.insertRow(i);
+      var c = r.insertCell(0);
+      c.appendChild(ele);
+      i++;
+    }
  }
 
 var yearSelect = d3.select("#year")
@@ -234,20 +246,30 @@ function reset() {
     });
 }
 
+  function valueWithRatio(key, ratio, d){
+    if(ratio!="none")
+      return +parseFloat((+d.properties[key])/(+d.properties[ratio])).toFixed(3);
+    else
+      return +d.properties[key];
+  }
+
+
 function update() {
   var tuples = [];
 
-  
+
   var start = Date.now();
   body.classed("updating", true);
-
+  var formatter = d3.format(".2f");
+  var ratio = field.ratio;
+  var feildname = field.name;
   var key = field.key.replace("%d", year),
       fmt = (typeof field.format === "function")
         ? field.format
         : d3.format(field.format || ","),
       value = function(d) {
-        tuples.push([d.id, +d.properties[key]]);
-        return +d.properties[key];
+        tuples.push([d.id, valueWithRatio(key,ratio,d)]);
+        return valueWithRatio(key,ratio,d);
       },
       values = states.data()
         .map(value)
@@ -267,9 +289,13 @@ function update() {
 
   toptable = document.getElementById("toptable");
   toptable.innerHTML = "";
-  for (var i = 0; i < tuples.length ; i++) {
+  var r = toptable.insertRow(0);
+  var c = r.insertCell(0);
+  c.innerHTML = "<b>Top 10 in "+feildname+"</b>";
+
+  for (var i = 0; i < tuples.length && i<10; i++) {
       console.log(tuples[i][0]+"  "+tuples[i][1]);
-      var r = toptable.insertRow(i);
+      var r = toptable.insertRow(i+1);
       var c = r.insertCell(0);
       c.innerHTML = (i+1)+". "+tuples[i][0]+ ": "+tuples[i][1];
   }

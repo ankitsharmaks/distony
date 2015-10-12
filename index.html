@@ -19,8 +19,12 @@
       }
 
       #container {
-        width: 800px;
+        width: 200px;
         margin: 20px auto;
+        height:500px;
+        overflow-y:scroll;
+        border: 1px solid black;
+
       }
 
       h1 {
@@ -76,6 +80,11 @@
         font-size: inherit;
       }
 
+      .fieldele {
+        font-size: 12px;
+        text-decoration: none;
+      }
+
       #placeholder {
         position: absolute;
         z-index: -1;
@@ -95,20 +104,16 @@
     </style>
   </head>
   <body>
-  <div style="margin-left: 120px;">
-    <div style="width: 320px; float: left;">
+  <div style="margin-left: 50px;">
+    <div style="width: 120px; float: left;">
       <div id="container">
-          <form>
-            <p>
-              <table id="field"></table>
-              <label style = "visibility:hidden"><select id="year"></select></label>
-              <span id="status"></span>
-            </p>
-          </form>
+            <table id="field"></table>
+            <label style = "visibility:hidden"><select id="year"></select></label>
+            <span id="status"></span>
       </div>
     </div>
     <div style="margin-left: 320px;">
-        <div id="mapc"></div>
+        <div id="mapc" style="z-index:1;"></div>
         <div id="top" style="margin-left:500px; margin-top:50px">
           <table id="toptable"></table>
         </div>

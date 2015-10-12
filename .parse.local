@@ -1,0 +1,10 @@
+{
+  "applications": {
+    "_default": {
+      "link": "distony"
+    },
+    "distony": {
+      "applicationId": "nwUS6qePSaIOmloUmaIYQIPwo37Cj4amCLVDQJ7z"
+    }
+  }
+}

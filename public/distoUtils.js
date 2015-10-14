@@ -7,7 +7,7 @@ eriemap["tarns2"] = -4750;
 
 var nymap = {};
 nymap["id"] = "ny"
-nymap["filename"] = "CountyDataNewCSVMerge.topojson";
+nymap["filename"] = "CountyDataWithCrimeRateCSVMerge.topojson";
 nymap["scale"] = 6.5;
 nymap["tarns1"] = -4576;
 nymap["tarns2"] = -620;
@@ -17,7 +17,7 @@ allmaps["erie"] = eriemap;
 allmaps["ny"] = nymap;
 console.log(allmaps["erie"]);
 
-var datamap = allmaps["erie"];
+var datamap = allmaps["ny"];
 
 var width = "40%",
     height = 590;
@@ -77,6 +77,9 @@ var percent = (function() {
       {name: "Grad_Prof_degree (%)", id: "Grad_Prof_degree", key: "Grad_Prof_degree", ratio:"Population", ny:false,erie:true},
       {name: "Per_HSgradHigher (%)", id: "Per_HSgradHigher", key: "Per_HSgradHigher", ratio:"Population", ny:false,erie:true},
       {name: "PerBachorHigher (%)", id: "PerBachorHigher", key: "PerBachorHigher", ratio:"Population", ny:false,erie:true},
+      {name: "Index Crime Rate", id: "Index Crime Rate", key: "Index Crime Rate", ratio:"none", ny:true,erie:false},
+      {name: "Violent Crime Rate", id: "Violent Crime Rate", key: "Violent Crime Rate", ratio:"none", ny:true,erie:false},
+      {name: "Property Crime Rate", id: "Property Crime Rate", key: "Property Crime Rate", ratio:"none", ny:true,erie:false},
     ],
     years = [2010, 2011],
     fieldsById = d3.nest()
